@@ -17,7 +17,7 @@ pnpm dev
 ### Useful scripts
 
 - `pnpm dev` – Run all dev servers via Turbo (`apps/web` currently enabled).
-- `pnpm lint` – Lint all packages (Next.js ESLint + Biome).
+- `pnpm lint` – Lint all packages (ESLint CLI for Next.js plus Biome in shared packages).
 - `pnpm test` – Execute Vitest in run mode (passes when no suites are defined).
 - `pnpm format` – Apply Biome + Prettier formatting across the repo.
 - `pnpm build` – Build all packages (FastAPI build is a no-op today but reserved).
@@ -46,6 +46,7 @@ pnpm dev
 - If Next.js warns about lockfile roots, ensure only one `pnpm-lock.yaml` exists at repo root.
 - Vitest runs in non-watch mode (`--passWithNoTests`) to avoid hanging; add suites to tighten signal.
 - Tailwind preset consumes tokens from `@chiron/design-tokens`; rebuild packages if tokens change.
+- Next.js linting runs through `eslint . --max-warnings=0`, which avoids the deprecated `next lint` wrapper and silences the workspace-root warning by pinning `outputFileTracingRoot` in `next.config.ts`.
 
 ## Dashboard data lifecycle
 
