@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { HeroGateCard, TimelineEventCard } from "@chiron/ui";
 import { motion } from "framer-motion";
 
+import { useDashboardStream } from "@/hooks/useDashboardStream";
 import { useDashboardSummary } from "@/hooks/useDashboardSummary";
+import { useDashboardSync } from "@/hooks/useDashboardSync";
 import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 const FALLBACK_GATE_HEALTH = [
@@ -92,6 +94,23 @@ export default function Home() {
     dataUpdatedAt,
   } = useDashboardSummary();
   const isOnline = useOnlineStatus();
+  const { isStreaming, lastEventAt, error: streamError } = useDashboardStream({
+    isOnline,
+  });
+  const [optimisticSyncAt, setOptimisticSyncAt] = useState<Date | null>(null);
+
+  useDashboardSync(isOnline);
+
+  const handleManualRefetch = useCallback(async () => {
+    setOptimisticSyncAt(new Date());
+    await refetch({ throwOnError: false, cancelRefetch: false });
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!isFetching && !isLoading) {
+      setOptimisticSyncAt(null);
+    }
+  }, [isFetching, isLoading]);
 
   const showSkeleton = isLoading && !data;
   const showFallback = !showSkeleton && !data;
@@ -110,6 +129,18 @@ export default function Home() {
   const lastUpdated = useMemo(() => {
     if (showSkeleton) return "Awaiting first sync…";
 
+    if (isStreaming && lastEventAt) {
+      return `Streaming ${lastEventAt.toISOString().slice(11, 16)} UTC`;
+    }
+
+    if (streamError) {
+      return "Stream reconnecting…";
+    }
+
+    if (optimisticSyncAt && (isLoading || isFetching)) {
+      return `Syncing… ${optimisticSyncAt.toISOString().slice(11, 16)} UTC`;
+    }
+
     if (data?.generatedAt) {
       return `Last sync ${data.generatedAt.toISOString().slice(11, 16)} UTC`;
     }
@@ -120,7 +151,17 @@ export default function Home() {
     }
 
     return "Last sync unavailable";
-  }, [data?.generatedAt, dataUpdatedAt, showSkeleton]);
+  }, [
+    data?.generatedAt,
+    dataUpdatedAt,
+    isFetching,
+    isLoading,
+    isStreaming,
+    lastEventAt,
+    optimisticSyncAt,
+    showSkeleton,
+    streamError,
+  ]);
 
   const statusBadge = useMemo(() => {
     if (!isOnline) {
@@ -139,6 +180,22 @@ export default function Home() {
       } as const;
     }
 
+    if (streamError) {
+      return {
+        label: "Retrying",
+        tone: "text-signalAmber",
+        border: "border-signalAmber/30",
+      } as const;
+    }
+
+    if (isStreaming) {
+      return {
+        label: "Streaming",
+        tone: "text-successMint",
+        border: "border-successMint/40",
+      } as const;
+    }
+
     if (isLoading || isFetching) {
       return {
         label: "Syncing",
@@ -152,12 +209,26 @@ export default function Home() {
       tone: "text-successMint",
       border: "border-successMint/30",
     } as const;
-  }, [isError, isFetching, isLoading, isOnline]);
+  }, [
+    isError,
+    isFetching,
+    isLoading,
+    isOnline,
+    isStreaming,
+    streamError,
+  ]);
 
   const errorMessage = useMemo(() => {
-    if (!error) return null;
-    return error instanceof Error ? error.message : "Unknown telemetry error";
-  }, [error]);
+    if (error) {
+      return error instanceof Error ? error.message : "Unknown telemetry error";
+    }
+
+    if (streamError && !isStreaming) {
+      return streamError;
+    }
+
+    return null;
+  }, [error, isStreaming, streamError]);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-[1400px] flex-col gap-16 px-6 py-16 lg:px-12 xl:px-20">
@@ -240,7 +311,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => {
-                  void refetch();
+                  void handleManualRefetch();
                 }}
                 disabled={isFetching || !isOnline}
                 className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-blue-100/80 transition hover:bg-white/20 disabled:cursor-not-allowed disabled:border-white/5 disabled:bg-white/5 disabled:text-blue-100/40"
@@ -254,6 +325,23 @@ export default function Home() {
               </button>
             </div>
           </header>
+
+          {isStreaming ? (
+            <div className="flex items-center gap-3 rounded-3xl border border-successMint/30 bg-successMint/10 px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-successMint/90">
+              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-successMint" />
+              <span>Live stream active</span>
+            </div>
+          ) : streamError ? (
+            <div className="flex items-center gap-3 rounded-3xl border border-signalAmber/30 bg-signalAmber/10 px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-signalAmber/90">
+              <span className="h-2.5 w-2.5 animate-spin rounded-full border-2 border-signalAmber/60 border-t-transparent" />
+              <span>Reconnecting stream…</span>
+            </div>
+          ) : isOnline ? (
+            <div className="flex items-center gap-3 rounded-3xl border border-white/10 bg-white/5 px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-blue-100/70">
+              <span className="h-2.5 w-2.5 rounded-full bg-white/40" />
+              <span>Awaiting live stream</span>
+            </div>
+          ) : null}
 
           <ul className="space-y-4">
             {showSkeleton

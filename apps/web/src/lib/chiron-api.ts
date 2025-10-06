@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export const DASHBOARD_SUMMARY_QUERY_KEY = [
+  "dashboard",
+  "summary",
+] as const;
+
 const dashboardSchema = z.object({
   generated_at: z.string(),
   hero_gates: z
@@ -41,6 +46,16 @@ export type DashboardSummary = {
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
+export function parseDashboardSummary(payload: unknown): DashboardSummary {
+  const parsed = dashboardSchema.parse(payload);
+
+  return {
+    generatedAt: new Date(parsed.generated_at),
+    heroGates: parsed.hero_gates,
+    timeline: parsed.timeline,
+  };
+}
+
 export async function fetchDashboardSummary(
   signal?: AbortSignal,
 ): Promise<DashboardSummary> {
@@ -56,11 +71,9 @@ export async function fetchDashboardSummary(
   }
 
   const json = await response.json();
-  const parsed = dashboardSchema.parse(json);
+  return parseDashboardSummary(json);
+}
 
-  return {
-    generatedAt: new Date(parsed.generated_at),
-    heroGates: parsed.hero_gates,
-    timeline: parsed.timeline,
-  };
+export function getDashboardStreamUrl() {
+  return `${API_BASE_URL}/api/v1/dashboard/stream`;
 }

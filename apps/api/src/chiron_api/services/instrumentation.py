@@ -2,7 +2,7 @@ from logging import getLogger
 
 from fastapi import FastAPI
 from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.exporter.otlp.proto.http import OTLPSpanExporter
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -35,5 +35,6 @@ def configure_observability(app: FastAPI, config: AppConfig) -> None:
 
     @app.on_event("shutdown")
     async def _shutdown() -> None:  # pragma: no cover
-        trace.get_tracer_provider().shutdown()
+        for span_processor in trace.get_tracer_provider()._active_span_processors:
+            span_processor.shutdown()
         logger.info("Chiron telemetry shutdown complete")
