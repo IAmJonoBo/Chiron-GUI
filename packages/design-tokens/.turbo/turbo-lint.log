@@ -1,0 +1,6 @@
+
+
+> @chiron/design-tokens@0.1.0 lint /Users/jonathanbotha/GitHub/Chiron GUI/packages/design-tokens
+> biome check ./src
+
+[0m[34mChecked [0m[0m[34m2[0m[0m[34m [0m[0m[34mfiles[0m[0m[34m in [0m[0m[34m9[0m[0m[2m[34mms[0m[0m[34m.[0m[0m[34m No fixes applied.[0m

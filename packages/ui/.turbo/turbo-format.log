@@ -1,0 +1,6 @@
+
+
+> @chiron/ui@0.1.0 format /Users/jonathanbotha/GitHub/Chiron GUI/packages/ui
+> biome format ./src --write
+
+[0m[34mFormatted [0m[0m[34m4[0m[0m[34m [0m[0m[34mfiles[0m[0m[34m in [0m[0m[34m1997[0m[0m[2m[34mµs[0m[0m[34m.[0m[0m[34m Fixed [0m[0m[34m1[0m[0m[34m [0m[0m[34mfile[0m[0m[34m.[0m

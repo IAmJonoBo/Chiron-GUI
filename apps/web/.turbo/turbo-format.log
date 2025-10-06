@@ -1,0 +1,15 @@
+
+
+> @chiron/web@0.1.0 format /Users/jonathanbotha/GitHub/Chiron GUI/apps/web
+> prettier --write .
+
+.gitignore[2K[1G.turbo/turbo-format.log[2K[1G.turbo/turbo-lint.log[2K[1Geslint.config.mjs[2K[1G[90meslint.config.mjs[39m 50ms (unchanged)
+next.config.ts[2K[1Gnext.config.ts 49ms
+package.json[2K[1G[90mpackage.json[39m 4ms (unchanged)
+postcss.config.mjs[2K[1Gpostcss.config.mjs 4ms
+public/file.svg[2K[1Gpublic/globe.svg[2K[1Gpublic/next.svg[2K[1Gpublic/vercel.svg[2K[1Gpublic/window.svg[2K[1GREADME.md[2K[1G[90mREADME.md[39m 38ms (unchanged)
+src/app/favicon.ico[2K[1Gsrc/app/globals.css[2K[1G[90msrc/app/globals.css[39m 24ms (unchanged)
+src/app/layout.tsx[2K[1Gsrc/app/layout.tsx 11ms
+src/app/page.tsx[2K[1Gsrc/app/page.tsx 78ms
+tailwind.config.ts[2K[1Gtailwind.config.ts 4ms
+tsconfig.json[2K[1Gtsconfig.json 2ms
