@@ -1,18 +1,21 @@
 {
-  "name": "chiron-monorepo",
-  "private": true,
-  "version": "0.1.0",
-  "packageManager": "pnpm@10.18.0",
-  "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "format": "turbo run format"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.2.5",
-    "prettier": "3.6.2",
-    "turbo": "2.5.8"
-  }
+	"name": "chiron-monorepo",
+	"private": true,
+	"version": "0.1.0",
+	"packageManager": "pnpm@10.18.1",
+	"scripts": {
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"lint": "turbo run lint",
+		"test": "turbo run test",
+		"format": "turbo run format"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.5",
+		"prettier": "3.6.2",
+		"turbo": "2.5.8"
+	},
+	"dependencies": {
+		"tailwindcss": "4.1.14"
+	}
 }

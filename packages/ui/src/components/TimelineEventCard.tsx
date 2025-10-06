@@ -1,73 +1,122 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { colors } from "@chiron/design-tokens";
-import { motion } from "framer-motion";
 
 import { cn } from "../utils/cn";
+import { motion } from "../utils/motion";
+import { TimelinePulseOverlay } from "./TimelinePulseOverlay";
 
-type TimelineTone = "positive" | "caution" | "critical";
+export type TimelineTone = "positive" | "caution" | "critical";
 
-const toneStyles: Record<TimelineTone, { text: string; glow: string }> = {
-	positive: { text: "text-successMint", glow: colors.successMint },
-	caution: { text: "text-signalAmber", glow: colors.signalAmber },
-	critical: { text: "text-criticalMagenta", glow: colors.criticalMagenta },
+const toneStyles: Record<
+	TimelineTone,
+	{ text: string; glow: string; border: string }
+> = {
+	positive: {
+		text: "text-successMint",
+		glow: colors.successMint,
+		border: "border-successMint/20",
+	},
+	caution: {
+		text: "text-signalAmber",
+		glow: colors.signalAmber,
+		border: "border-signalAmber/25",
+	},
+	critical: {
+		text: "text-criticalMagenta",
+		glow: colors.criticalMagenta,
+		border: "border-criticalMagenta/25",
+	},
 };
 
+export interface TimelineEventAttributes {
+	impactLabel?: ReactNode;
+	description?: ReactNode;
+	[key: string]: unknown;
+}
+
 export interface TimelineEventCardProps {
-	time: string;
 	label: string;
 	impact: string;
+	time: string;
+	secondaryTime?: string;
+	attributes?: TimelineEventAttributes;
+	overlay?: string | null;
 	tone?: TimelineTone;
 	className?: string;
 }
 
+const overlayPresets: Record<
+	string,
+	"aurora" | "grid" | "flare" | "wave" | "pulse"
+> = {
+	aurora: "aurora",
+	grid: "grid",
+	flare: "flare",
+	nebula: "wave",
+	default: "pulse",
+};
+
 export function TimelineEventCard({
-	time,
 	label,
 	impact,
+	time,
+	secondaryTime,
+	attributes,
+	overlay,
 	tone = "positive",
 	className,
 }: TimelineEventCardProps) {
 	const toneClass = toneStyles[tone];
+	const overlayPreset = overlay
+		? (overlayPresets[overlay] ?? overlayPresets.default)
+		: overlayPresets.default;
+	const impactLabel = attributes?.impactLabel ?? impact;
+	const description = attributes?.description;
 
 	return (
 		<motion.li
 			layout
-			whileHover={{ translateY: -4 }}
-			transition={{ duration: 0.28, ease: [0.3, 0.8, 0.4, 1] }}
+			whileHover={{ translateY: -6 }}
+			transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
 			className={cn(
-				"group relative flex items-center justify-between gap-5 overflow-hidden rounded-3xl border border-white/8 bg-white/6 px-6 py-5 backdrop-blur-2xl",
-				"shadow-[0_18px_48px_rgba(3,8,15,0.38)]",
+				"group relative flex flex-col gap-4 overflow-hidden rounded-[28px] border border-white/10 bg-white/6 px-6 py-5 backdrop-blur-2xl",
+				"shadow-[0_22px_56px_rgba(4,10,22,0.46)]",
 				className,
 			)}
-			style={{ boxShadow: `0 18px 48px ${toneClass.glow}26` }}
+			style={{ boxShadow: `0 22px 56px ${toneClass.glow}28` }}
 		>
-			<div className="flex flex-col gap-2">
-				<span className="text-xs uppercase tracking-[0.42em] text-textSecondary/70">
-					{time}
-				</span>
-				<span className="text-base font-medium text-foreground sm:text-lg">
-					{label}
-				</span>
+			<div className="flex items-center justify-between gap-4">
+				<div className="flex flex-col gap-1">
+					<span className="text-[11px] uppercase tracking-[0.4em] text-white/55">
+						{time}
+						{secondaryTime ? (
+							<span className="ml-2 text-white/35">{secondaryTime}</span>
+						) : null}
+					</span>
+					<span className="text-base font-semibold text-white sm:text-lg">
+						{label}
+					</span>
+				</div>
+				<motion.span
+					className={cn(
+						"rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.32em]",
+						toneClass.text,
+						toneClass.border,
+					)}
+					initial={{ opacity: 0, scale: 0.94 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.32, ease: "easeOut" }}
+				>
+					{impactLabel}
+				</motion.span>
 			</div>
-			<motion.span
-				className={cn(
-					"rounded-full border border-white/10 px-4 py-1 text-sm font-semibold uppercase tracking-[0.32em]",
-					toneClass.text,
-				)}
-				initial={{ opacity: 0, scale: 0.94 }}
-				animate={{ opacity: 1, scale: 1 }}
-				transition={{ duration: 0.32, ease: "easeOut" }}
-			>
-				{impact}
-			</motion.span>
-			<div
-				aria-hidden
-				className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-				style={{
-					background: `radial-gradient(80% 160% at 90% 10%, ${toneClass.glow}22 0%, transparent 70%)`,
-				}}
-			/>
+			{description ? (
+				<p className="text-sm text-white/70">{description}</p>
+			) : null}
+			<TimelinePulseOverlay preset={overlayPreset} tone={tone} />
 		</motion.li>
 	);
 }
