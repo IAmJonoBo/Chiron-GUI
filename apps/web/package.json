@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest",
+    "test": "vitest run --passWithNoTests",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "@types/node": "24.7.0",
     "@types/react": "19.2.0",
     "@types/react-dom": "19.2.0",
+    "@tanstack/react-query-devtools": "5.90.2",
     "autoprefixer": "10.4.21",
     "eslint": "9.37.0",
     "eslint-config-next": "15.5.4",

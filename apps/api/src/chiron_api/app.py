@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from .config import AppConfig
-from .routers import airgap, health, info, process, wheelhouse
+from .routers import airgap, dashboard, health, info, process, wheelhouse
 from .services.instrumentation import configure_observability
 
 
@@ -17,5 +17,6 @@ def create_app() -> FastAPI:
     app.include_router(process.router, prefix="/api/v1/process", tags=["process"])
     app.include_router(wheelhouse.router, prefix="/api/v1/wheelhouse", tags=["wheelhouse"])
     app.include_router(airgap.router, prefix="/api/v1/airgap", tags=["airgap"])
+    app.include_router(dashboard.router, prefix="/api/v1/dashboard", tags=["dashboard"])
 
     return app

@@ -1,16 +1,21 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { HeroGateCard, TimelineEventCard } from "@chiron/ui";
 import { motion } from "framer-motion";
 
-const gateHealth = [
+import { useDashboardSummary } from "@/hooks/useDashboardSummary";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+
+const FALLBACK_GATE_HEALTH = [
   { name: "Fusion Segment", score: 92, status: "pass" as const },
   { name: "Kinematics Mesh", score: 68, status: "warn" as const },
   { name: "Containment Umbra", score: 81, status: "pass" as const },
   { name: "Reactor Baffles", score: 47, status: "fail" as const },
 ];
 
-const timeline = [
+const FALLBACK_TIMELINE = [
   {
     time: "08:24",
     label: "Delta Gate sync",
@@ -31,7 +36,129 @@ const timeline = [
   },
 ];
 
+const HERO_SKELETON_KEYS = [
+  "hero-skeleton-alpha",
+  "hero-skeleton-beta",
+  "hero-skeleton-gamma",
+  "hero-skeleton-delta",
+];
+const TIMELINE_SKELETON_KEYS = [
+  "timeline-skeleton-alpha",
+  "timeline-skeleton-beta",
+  "timeline-skeleton-gamma",
+];
+
+function HeroGateSkeleton() {
+  return (
+    <div className="flex h-48 w-full animate-pulse flex-col justify-between rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-3xl shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_28px_60px_rgba(3,8,15,0.45)]">
+      <div className="h-3 w-24 rounded-full bg-white/20" />
+      <div className="flex items-end gap-4">
+        <div className="h-10 w-20 rounded-lg bg-white/20" />
+        <div className="h-3 w-16 rounded-full bg-white/10" />
+      </div>
+      <div className="h-2 w-full rounded-full bg-white/10" />
+    </div>
+  );
+}
+
+function TimelineEventSkeleton() {
+  return (
+    <li className="flex items-center justify-between gap-5 animate-pulse rounded-3xl border border-white/10 bg-white/8 px-6 py-5 backdrop-blur-2xl shadow-[0_18px_48px_rgba(3,8,15,0.28)]">
+      <div className="flex flex-col gap-2">
+        <div className="h-2 w-20 rounded-full bg-white/20" />
+        <div className="h-3 w-40 rounded-full bg-white/16" />
+      </div>
+      <div className="h-3 w-28 rounded-full bg-white/12" />
+    </li>
+  );
+}
+
+function toTone(tone?: string) {
+  if (!tone) return "positive" as const;
+  if (tone.includes("critical")) return "critical" as const;
+  if (tone.includes("signal") || tone.includes("warn"))
+    return "caution" as const;
+  return "positive" as const;
+}
+
 export default function Home() {
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+    dataUpdatedAt,
+  } = useDashboardSummary();
+  const isOnline = useOnlineStatus();
+
+  const showSkeleton = isLoading && !data;
+  const showFallback = !showSkeleton && !data;
+
+  const heroGates = showFallback
+    ? FALLBACK_GATE_HEALTH
+    : data?.heroGates ?? [];
+  const timeline = (showFallback ? FALLBACK_TIMELINE : data?.timeline ?? []).map(
+    (item) => ({
+      ...item,
+      time: item.time.includes("UTC") ? item.time : `${item.time} UTC`,
+      tone: toTone(item.tone),
+    }),
+  );
+
+  const lastUpdated = useMemo(() => {
+    if (showSkeleton) return "Awaiting first sync…";
+
+    if (data?.generatedAt) {
+      return `Last sync ${data.generatedAt.toISOString().slice(11, 16)} UTC`;
+    }
+
+    if (dataUpdatedAt) {
+      const derived = new Date(dataUpdatedAt);
+      return `Last sync ${derived.toISOString().slice(11, 16)} UTC`;
+    }
+
+    return "Last sync unavailable";
+  }, [data?.generatedAt, dataUpdatedAt, showSkeleton]);
+
+  const statusBadge = useMemo(() => {
+    if (!isOnline) {
+      return {
+        label: "Offline",
+        tone: "text-signalAmber",
+        border: "border-signalAmber/30",
+      } as const;
+    }
+
+    if (isError) {
+      return {
+        label: "Degraded",
+        tone: "text-criticalMagenta",
+        border: "border-criticalMagenta/30",
+      } as const;
+    }
+
+    if (isLoading || isFetching) {
+      return {
+        label: "Syncing",
+        tone: "text-signalAmber",
+        border: "border-signalAmber/30",
+      } as const;
+    }
+
+    return {
+      label: "Live",
+      tone: "text-successMint",
+      border: "border-successMint/30",
+    } as const;
+  }, [isError, isFetching, isLoading, isOnline]);
+
+  const errorMessage = useMemo(() => {
+    if (!error) return null;
+    return error instanceof Error ? error.message : "Unknown telemetry error";
+  }, [error]);
+
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-[1400px] flex-col gap-16 px-6 py-16 lg:px-12 xl:px-20">
       <section className="grid w-full grid-cols-1 gap-10 lg:grid-cols-[1.45fr_1fr]">
@@ -76,9 +203,13 @@ export default function Home() {
           </p>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {gateHealth.map((gate) => (
-              <HeroGateCard key={gate.name} {...gate} />
-            ))}
+            {showSkeleton
+              ? HERO_SKELETON_KEYS.map((key) => (
+                  <HeroGateSkeleton key={key} />
+                ))
+              : heroGates.map((gate) => (
+                  <HeroGateCard key={gate.name} {...gate} />
+                ))}
           </div>
         </motion.div>
 
@@ -88,7 +219,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.3, 0.8, 0.4, 1] }}
         >
-          <header className="flex items-center justify-between">
+          <header className="flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold tracking-[0.18em] text-blue-200/80">
                 Live events
@@ -96,23 +227,68 @@ export default function Home() {
               <p className="text-sm text-blue-100/60">
                 Realtime industrial telemetry
               </p>
+              <p className="mt-1 text-xs uppercase tracking-[0.28em] text-blue-200/50">
+                {lastUpdated}
+              </p>
             </div>
-            <span className="rounded-full border border-successMint/30 px-3 py-1 text-xs uppercase tracking-[0.3em] text-successMint">
-              Sync
-            </span>
+            <div className="flex flex-col items-end gap-2">
+              <span
+                className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.3em] ${statusBadge.tone} ${statusBadge.border}`}
+              >
+                {statusBadge.label}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  void refetch();
+                }}
+                disabled={isFetching || !isOnline}
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-blue-100/80 transition hover:bg-white/20 disabled:cursor-not-allowed disabled:border-white/5 disabled:bg-white/5 disabled:text-blue-100/40"
+              >
+                <span>{isFetching ? "Refreshing" : "Sync now"}</span>
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    isFetching ? "bg-successMint animate-ping" : "bg-white/40"
+                  }`}
+                />
+              </button>
+            </div>
           </header>
 
           <ul className="space-y-4">
-            {timeline.map((item) => (
-              <TimelineEventCard key={item.time} {...item} />
-            ))}
+            {showSkeleton
+              ? TIMELINE_SKELETON_KEYS.map((key) => (
+                  <TimelineEventSkeleton key={key} />
+                ))
+              : timeline.map((item) => (
+                  <TimelineEventCard
+                    key={`${item.time}-${item.label}`}
+                    {...item}
+                  />
+                ))}
           </ul>
 
           <div className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-xs uppercase tracking-[0.4em] text-blue-200/70">
             Next sync window in 00:04:26
           </div>
+          {!isOnline ? (
+            <div className="rounded-3xl border border-signalAmber/30 bg-signalAmber/10 px-4 py-3 text-[11px] uppercase tracking-[0.3em] text-signalAmber/90">
+              Offline mode — cached telemetry shown
+            </div>
+          ) : null}
         </motion.aside>
       </section>
+
+      {isError && errorMessage ? (
+        <div className="rounded-3xl border border-criticalMagenta/30 bg-criticalMagenta/10 p-6 text-sm text-foreground/80">
+          <p className="font-semibold text-criticalMagenta">
+            Telemetry degraded
+          </p>
+          <p className="mt-2 text-criticalMagenta/80">
+            {errorMessage}
+          </p>
+        </div>
+      ) : null}
 
       <section className="grid gap-6 rounded-[38px] border border-white/10 bg-gradient-to-br from-blue-900/30 via-blue-900/10 to-black/70 p-8 shadow-[0_40px_120px_rgba(3,8,15,0.55)] lg:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-4">
