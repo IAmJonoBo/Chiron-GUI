@@ -16,7 +16,7 @@
       "@chiron/ui": ["../../packages/ui/src/index.ts"],
       "@chiron/ui/*": ["../../packages/ui/src/*"]
     },
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "allowJs": false
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
