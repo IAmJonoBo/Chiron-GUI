@@ -24,7 +24,7 @@ openai = "1.56.0"
 langchain = "0.3.27"
 langgraph = "0.0.69"
 open-telemetry-exporter-otlp = "1.26.0"
-setuptools = "70.0.0"
+setuptools = "78.1.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "8.3.3"
