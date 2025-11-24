@@ -52,8 +52,8 @@ importers:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
       zod:
-        specifier: 4.1.11
-        version: 4.1.11
+        specifier: 4.1.13
+        version: 4.1.13
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -2748,8 +2748,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  zod@4.1.11:
-    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
 
 snapshots:
 
@@ -5466,4 +5466,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod@4.1.11: {}
+  zod@4.1.13: {}
