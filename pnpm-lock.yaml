@@ -35,22 +35,22 @@ importers:
         version: 5.90.2
       '@tanstack/react-query':
         specifier: 5.90.2
-        version: 5.90.2(react@19.2.0)
+        version: 5.90.2(react@19.2.1)
       '@tanstack/react-query-persist-client':
         specifier: ^5.90.2
-        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.0))(react@19.2.0)
+        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.1))(react@19.2.1)
       framer-motion:
         specifier: 12.23.22
-        version: 12.23.22(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 12.23.22(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       next:
         specifier: 15.5.4
-        version: 15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 15.5.4(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       react:
-        specifier: 19.2.0
-        version: 19.2.0
+        specifier: 19.2.1
+        version: 19.2.1
       react-dom:
-        specifier: 19.2.0
-        version: 19.2.0(react@19.2.0)
+        specifier: 19.2.1
+        version: 19.2.1(react@19.2.1)
       zod:
         specifier: 4.1.11
         version: 4.1.11
@@ -63,16 +63,16 @@ importers:
         version: 4.1.14
       '@tanstack/react-query-devtools':
         specifier: 5.90.2
-        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.0))(react@19.2.0)
+        version: 5.90.2(@tanstack/react-query@5.90.2(react@19.2.1))(react@19.2.1)
       '@types/node':
         specifier: 24.7.0
         version: 24.7.0
       '@types/react':
-        specifier: 19.2.0
-        version: 19.2.0
+        specifier: 19.2.7
+        version: 19.2.7
       '@types/react-dom':
-        specifier: 19.2.0
-        version: 19.2.0(@types/react@19.2.0)
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.7)
       autoprefixer:
         specifier: 10.4.21
         version: 10.4.21(postcss@8.5.6)
@@ -126,11 +126,11 @@ importers:
         version: 19.2.0(react@19.2.0)
     devDependencies:
       '@types/react':
-        specifier: 19.2.0
-        version: 19.2.0
+        specifier: 19.2.7
+        version: 19.2.7
       '@types/react-dom':
-        specifier: 19.2.0
-        version: 19.2.0(@types/react@19.2.0)
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.7)
       tsup:
         specifier: 8.5.0
         version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)(yaml@2.8.1)
@@ -900,13 +900,13 @@ packages:
   '@types/node@24.7.0':
     resolution: {integrity: sha512-IbKooQVqUBrlzWTi79E8Fw78l8k1RNtlDDNWsFZs7XonuQSJ8oNYfEeclhprUldXISRMLzBpILuKgPlIxm+/Yw==}
 
-  '@types/react-dom@19.2.0':
-    resolution: {integrity: sha512-brtBs0MnE9SMx7px208g39lRmC5uHZs96caOJfTjFcYSLHNamvaSMfJNagChVNkup2SdtOxKX1FDBkRSJe1ZAg==}
+  '@types/react-dom@19.2.3':
+    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
       '@types/react': ^19.2.0
 
-  '@types/react@19.2.0':
-    resolution: {integrity: sha512-1LOH8xovvsKsCBq1wnT4ntDUdCJKmnEakhsuoUSy6ExlHCkGP2hqnatagYTgFk6oeL0VU31u7SNjunPN+GchtA==}
+  '@types/react@19.2.7':
+    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
 
   '@typescript-eslint/eslint-plugin@8.45.0':
     resolution: {integrity: sha512-HC3y9CVuevvWCl/oyZuI47dOeDF9ztdMEfMH8/DW/Mhwa9cCLnK1oD7JoTVGW/u7kFzNZUKUoyJEqkaJh5y3Wg==}
@@ -1291,8 +1291,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -2055,6 +2055,7 @@ packages:
   next@15.5.4:
     resolution: {integrity: sha512-xH4Yjhb82sFYQfY3vbkJfgSDgXvBB6a8xPs9i35k6oZJRoQRihZH+4s9Yo2qsWpzBmZ3lPXaJ2KPXLfkvW4LnA==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -2232,11 +2233,20 @@ packages:
     peerDependencies:
       react: ^19.2.0
 
+  react-dom@19.2.1:
+    resolution: {integrity: sha512-ibrK8llX2a4eOskq1mXKu/TGZj9qzomO+sNfO98M6d9zIPOEhlBkMkBUBLd1vgS0gQsLDBzA+8jJBVXDnfHmJg==}
+    peerDependencies:
+      react: ^19.2.1
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
   react@19.2.0:
     resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
+    engines: {node: '>=0.10.0'}
+
+  react@19.2.1:
+    resolution: {integrity: sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw==}
     engines: {node: '>=0.10.0'}
 
   readdirp@4.1.2:
@@ -3275,22 +3285,22 @@ snapshots:
       '@tanstack/query-core': 5.90.2
       '@tanstack/query-persist-client-core': 5.90.2
 
-  '@tanstack/react-query-devtools@5.90.2(@tanstack/react-query@5.90.2(react@19.2.0))(react@19.2.0)':
+  '@tanstack/react-query-devtools@5.90.2(@tanstack/react-query@5.90.2(react@19.2.1))(react@19.2.1)':
     dependencies:
       '@tanstack/query-devtools': 5.90.1
-      '@tanstack/react-query': 5.90.2(react@19.2.0)
-      react: 19.2.0
+      '@tanstack/react-query': 5.90.2(react@19.2.1)
+      react: 19.2.1
 
-  '@tanstack/react-query-persist-client@5.90.2(@tanstack/react-query@5.90.2(react@19.2.0))(react@19.2.0)':
+  '@tanstack/react-query-persist-client@5.90.2(@tanstack/react-query@5.90.2(react@19.2.1))(react@19.2.1)':
     dependencies:
       '@tanstack/query-persist-client-core': 5.90.2
-      '@tanstack/react-query': 5.90.2(react@19.2.0)
-      react: 19.2.0
+      '@tanstack/react-query': 5.90.2(react@19.2.1)
+      react: 19.2.1
 
-  '@tanstack/react-query@5.90.2(react@19.2.0)':
+  '@tanstack/react-query@5.90.2(react@19.2.1)':
     dependencies:
       '@tanstack/query-core': 5.90.2
-      react: 19.2.0
+      react: 19.2.1
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
@@ -3313,13 +3323,13 @@ snapshots:
     dependencies:
       undici-types: 7.14.0
 
-  '@types/react-dom@19.2.0(@types/react@19.2.0)':
+  '@types/react-dom@19.2.3(@types/react@19.2.7)':
     dependencies:
-      '@types/react': 19.2.0
+      '@types/react': 19.2.7
 
-  '@types/react@19.2.0':
+  '@types/react@19.2.7':
     dependencies:
-      csstype: 3.1.3
+      csstype: 3.2.3
 
   '@typescript-eslint/eslint-plugin@8.45.0(@typescript-eslint/parser@8.45.0(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -3731,7 +3741,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  csstype@3.1.3: {}
+  csstype@3.2.3: {}
 
   damerau-levenshtein@1.0.8: {}
 
@@ -4217,6 +4227,15 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
+  framer-motion@12.23.22(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
+    dependencies:
+      motion-dom: 12.23.21
+      motion-utils: 12.23.6
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.2.1
+      react-dom: 19.2.1(react@19.2.1)
+
   fsevents@2.3.3:
     optional: true
 
@@ -4632,15 +4651,15 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  next@15.5.4(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001748
       postcss: 8.4.31
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      styled-jsx: 5.1.6(react@19.2.0)
+      react: 19.2.1
+      react-dom: 19.2.1(react@19.2.1)
+      styled-jsx: 5.1.6(react@19.2.1)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -4802,9 +4821,16 @@ snapshots:
       react: 19.2.0
       scheduler: 0.27.0
 
+  react-dom@19.2.1(react@19.2.1):
+    dependencies:
+      react: 19.2.1
+      scheduler: 0.27.0
+
   react-is@16.13.1: {}
 
   react@19.2.0: {}
+
+  react@19.2.1: {}
 
   readdirp@4.1.2: {}
 
@@ -5090,10 +5116,10 @@ snapshots:
     dependencies:
       js-tokens: 9.0.1
 
-  styled-jsx@5.1.6(react@19.2.0):
+  styled-jsx@5.1.6(react@19.2.1):
     dependencies:
       client-only: 0.0.1
-      react: 19.2.0
+      react: 19.2.1
 
   sucrase@3.35.0:
     dependencies:
