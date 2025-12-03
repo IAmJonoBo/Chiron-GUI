@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@chiron/design-tokens": "workspace:*",
-		"framer-motion": "12.23.22"
+		"framer-motion": "12.23.25"
 	},
 	"peerDependencies": {
 		"react": "^19.0.0",
