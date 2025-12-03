@@ -16,7 +16,7 @@
 		"@tanstack/query-sync-storage-persister": "^5.90.2",
 		"@tanstack/react-query": "5.90.2",
 		"@tanstack/react-query-persist-client": "^5.90.2",
-		"framer-motion": "12.23.22",
+		"framer-motion": "12.23.25",
 		"next": "15.5.4",
 		"react": "19.2.0",
 		"react-dom": "19.2.0",
